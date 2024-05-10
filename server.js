@@ -19,6 +19,17 @@ const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
+    } else if (req.url.endsWith('.css')) {
+        // If the request is for a CSS file
+        fs.readFile(path.join(__dirname, req.url), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Internal Server Error');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/css' });
+                res.end(data);
+            }
+        });
     } else {
         // If the request is for any other URL, respond with a 404 Not Found error
         res.writeHead(404, { 'Content-Type': 'text/plain' });
